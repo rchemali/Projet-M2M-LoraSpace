@@ -1,0 +1,1 @@
+Le but de ce projet est de réaliser un prototype qui permet de préparer le terrain pour imaginer une communication bidirectionnelle basse consommation d'énergie pour les nano-satellites en utilisant des moyens peu coûteux comme le protocole Lora
