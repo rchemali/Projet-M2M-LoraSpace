@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= HOME
+  h2=test
+  ul
+    each val in list
+      li: a(href="/detail?id="+val['satid']+"&name="+val['satname'])=val['satname']
+      p="id= "+val['satid']
+      p="lat= "+val['satlat']
+      p="lng= "+val['satlng']
+      p="alt= "+val['satalt']
