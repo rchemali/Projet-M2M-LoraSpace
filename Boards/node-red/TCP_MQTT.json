@@ -1,0 +1,259 @@
+[
+    {
+        "id": "a97de388.902b3",
+        "type": "tab",
+        "label": "TcpToMQTT",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "a1ae7edb.7fdf1",
+        "type": "tcp in",
+        "z": "a97de388.902b3",
+        "name": "",
+        "server": "server",
+        "host": "",
+        "port": "8002",
+        "datamode": "stream",
+        "datatype": "utf8",
+        "newline": "",
+        "topic": "",
+        "base64": false,
+        "x": 118.51705551147461,
+        "y": 162.24148273468018,
+        "wires": [
+            [
+                "77c36533.c22cac",
+                "7f9b940.e44a16c",
+                "2e106545.00461a",
+                "724fd266.07657c",
+                "dc412686.f88638"
+            ]
+        ]
+    },
+    {
+        "id": "47e01d17.7d8b24",
+        "type": "mqtt out",
+        "z": "a97de388.902b3",
+        "name": "",
+        "topic": "m2m-loraspace/data/gps/longitude",
+        "qos": "",
+        "retain": "",
+        "broker": "d792c6c4.e5b7d8",
+        "x": 820.7840576171875,
+        "y": 21.000003814697266,
+        "wires": []
+    },
+    {
+        "id": "77c36533.c22cac",
+        "type": "function",
+        "z": "a97de388.902b3",
+        "name": "gpsTopic",
+        "func": "var temp = msg;\ntemp.payload = temp.payload.split('#')[0];\nreturn temp;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 378.50848388671875,
+        "y": 34.244314670562744,
+        "wires": [
+            [
+                "47e01d17.7d8b24"
+            ]
+        ]
+    },
+    {
+        "id": "8ab1d17d.36569",
+        "type": "mqtt in",
+        "z": "a97de388.902b3",
+        "name": "",
+        "topic": "m2m-loraspace/config/servos",
+        "qos": "2",
+        "broker": "d792c6c4.e5b7d8",
+        "x": 177,
+        "y": 599.0057611465454,
+        "wires": [
+            [
+                "8afffaa8.794438"
+            ]
+        ]
+    },
+    {
+        "id": "7f9b940.e44a16c",
+        "type": "function",
+        "z": "a97de388.902b3",
+        "name": "saveSession",
+        "func": "global.set(\"session\",msg._session);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 317.06937408447266,
+        "y": 375.2291784286499,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "151ea1b4.6395de",
+        "type": "tcp out",
+        "z": "a97de388.902b3",
+        "host": "",
+        "port": "",
+        "beserver": "reply",
+        "base64": false,
+        "end": false,
+        "name": "",
+        "x": 843.0801010131836,
+        "y": 527.399468421936,
+        "wires": []
+    },
+    {
+        "id": "8d675747.e5b608",
+        "type": "function",
+        "z": "a97de388.902b3",
+        "name": "",
+        "func": "\nvar temp = msg;\ntemp._session = global.get(\"session\");\n\nvar elevation;\nif(msg.payload.elevation<0)\n    elevation = msg.payload.elevation * -1;\nelse\n    elevation = msg.payload.elevation;\n    \nvar alz = \"000\" + msg.payload.azimuth.toString().substr(0,3);\nvar elev = \"000\" + msg.payload.elevation.toString().substr(0,3);\ntemp.payload = alz.substr(alz.length-3)+\"#\"+elev.substr(elev.length-3);\n//temp.payload = msg.payload.azimuth.toString().substr(0,3) +\"#\"+msg.payload.elevation.toString().substr(0,3);\n//temp.payload = \"120#160\";\nreturn temp;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 603.0695343017578,
+        "y": 600.2326984405518,
+        "wires": [
+            [
+                "151ea1b4.6395de",
+                "dc412686.f88638"
+            ]
+        ]
+    },
+    {
+        "id": "2e106545.00461a",
+        "type": "function",
+        "z": "a97de388.902b3",
+        "name": "gpsTopic",
+        "func": "var temp = msg;\ntemp.payload = temp.payload.split('#')[1];\nreturn temp;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 379.0173873901367,
+        "y": 84.01042556762695,
+        "wires": [
+            [
+                "52e8ce67.dfc94"
+            ]
+        ]
+    },
+    {
+        "id": "724fd266.07657c",
+        "type": "function",
+        "z": "a97de388.902b3",
+        "name": "gpsTopic",
+        "func": "var temp = msg;\ntemp.payload = temp.payload.split('#')[2];\nreturn temp;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 383.0173645019531,
+        "y": 132.01040172576904,
+        "wires": [
+            [
+                "607ee24b.22388c"
+            ]
+        ]
+    },
+    {
+        "id": "52e8ce67.dfc94",
+        "type": "mqtt out",
+        "z": "a97de388.902b3",
+        "name": "",
+        "topic": "m2m-loraspace/data/gps/latitude",
+        "qos": "",
+        "retain": "",
+        "broker": "d792c6c4.e5b7d8",
+        "x": 811.0173950195312,
+        "y": 69.01041793823242,
+        "wires": []
+    },
+    {
+        "id": "607ee24b.22388c",
+        "type": "mqtt out",
+        "z": "a97de388.902b3",
+        "name": "",
+        "topic": "m2m-loraspace/data/gps/alt",
+        "qos": "",
+        "retain": "",
+        "broker": "d792c6c4.e5b7d8",
+        "x": 801.0173645019531,
+        "y": 120.01041030883789,
+        "wires": []
+    },
+    {
+        "id": "8afffaa8.794438",
+        "type": "json",
+        "z": "a97de388.902b3",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 420.0764617919922,
+        "y": 596.6875886917114,
+        "wires": [
+            [
+                "8d675747.e5b608"
+            ]
+        ]
+    },
+    {
+        "id": "c76f91ba.8e116",
+        "type": "mqtt out",
+        "z": "a97de388.902b3",
+        "name": "",
+        "topic": "m2m-loraspace/data/gps",
+        "qos": "",
+        "retain": "",
+        "broker": "d792c6c4.e5b7d8",
+        "x": 759.0174255371094,
+        "y": 243.01041221618652,
+        "wires": []
+    },
+    {
+        "id": "dc412686.f88638",
+        "type": "debug",
+        "z": "a97de388.902b3",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "x": 867.072998046875,
+        "y": 608.1146240234375,
+        "wires": []
+    },
+    {
+        "id": "92d89d6c.5f16c",
+        "type": "mqtt out",
+        "z": "a97de388.902b3",
+        "name": "",
+        "topic": "m2m-loraspace/data/gps/alt",
+        "qos": "",
+        "retain": "",
+        "broker": "d792c6c4.e5b7d8",
+        "x": 217.01953125,
+        "y": 1185.00390625,
+        "wires": []
+    },
+    {
+        "id": "d792c6c4.e5b7d8",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "hivemq",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "true",
+        "willPayload": "",
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "true",
+        "birthPayload": ""
+    }
+]
